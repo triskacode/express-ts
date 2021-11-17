@@ -1,13 +1,9 @@
-import { ICreateUserRequest } from "../models/requests/CreateUserRequest";
+import { ICreateUser } from "../models/requests/CreateUser";
 import UserRepository from "../repositories/UserRepository";
 import { ValidationError } from "yup";
 
-export interface IUserService {
-  createUser(request: ICreateUserRequest): Promise<boolean>;
-}
-
-class UserService implements IUserService {
-  async createUser(request: ICreateUserRequest): Promise<boolean> {
+class UserService {
+  static async createUser(request: ICreateUser): Promise<boolean> {
     try {
       const isAlreadyExist = await UserRepository.exists({
         email: request.email,
@@ -34,4 +30,4 @@ class UserService implements IUserService {
   }
 }
 
-export default new UserService();
+export default UserService;

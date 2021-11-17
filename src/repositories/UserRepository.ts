@@ -1,4 +1,4 @@
-import {UserModel} from "../databases/schemas/UserSchema";
+import { UserModel } from "../databases/schemas/UserSchema";
 import { IUserDocument, IUserEntity } from "../domain/User";
 
 class UserRepository {

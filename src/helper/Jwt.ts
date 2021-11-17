@@ -1,0 +1,3 @@
+class Jwt{
+    static sign
+}

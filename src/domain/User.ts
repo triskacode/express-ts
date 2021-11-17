@@ -1,7 +1,7 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface IUserEntity {
-  _id?: string;
+  _id?: mongoose.Schema.Types.ObjectId;
   email: string;
   name: string;
   password: string;
@@ -12,3 +12,6 @@ export interface IUserEntity {
 export interface IUserDocument
   extends IUserEntity,
     Omit<Document, keyof IUserEntity> {}
+
+export interface IUserPresenter
+  extends Required<Omit<IUserEntity, "password">> {}
