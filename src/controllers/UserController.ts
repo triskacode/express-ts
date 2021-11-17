@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ValidationError } from "yup";
-import Logger from "../../../config/Logger";
+import Logger from "../config/Logger";
 import { CreateUserResponse } from "../models/responses/CreateUserResponse";
 import { ErrorResponse } from "../models/responses/ErrorResponse";
 import UserService from "../services/UserService";

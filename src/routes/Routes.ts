@@ -1,5 +1,5 @@
 import { Express, Request, Response, NextFunction } from "express";
-import Logger from "../../../config/Logger";
+import Logger from "../config/Logger";
 import UserController from "../controllers/UserController";
 import { ValidationRequests } from "../middleware/ValidateRequest";
 import { ErrorResponse } from "../models/responses/ErrorResponse";

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AnySchema, ValidationError } from "yup";
-import Logger from "../../../config/Logger";
+import Logger from "../config/Logger";
 import { ValidationErrorResponse } from "../models/responses/ValidationErrorResponse";
 
 export class ValidationRequests {
