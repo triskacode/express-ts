@@ -9,13 +9,13 @@ import { ValidationErrorResponse } from "../models/responses/ValidationErrorResp
 class UserController {
   async create(req: Request, res: Response) {
     try {
-      const isStoredUser = await UserService.createUser({
+      const isSuccessfullStoredUser = await UserService.createUser({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
       });
 
-      if (isStoredUser) {
+      if (isSuccessfullStoredUser) {
         return CreateUserResponse.handle(res);
       } else {
         return ErrorResponse.handle(res, 500);

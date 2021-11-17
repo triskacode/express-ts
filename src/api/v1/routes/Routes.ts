@@ -11,7 +11,7 @@ const Routes = (app: Express) => {
   // create user
   app.post(
     "/users",
-    ValidationRequests.validate(CreateUserValidator),
+    ValidationRequests.validate(CreateUserValidator.rules()),
     UserController.create
   );
 

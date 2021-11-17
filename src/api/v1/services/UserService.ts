@@ -1,7 +1,5 @@
-import { IUserEntity } from "../domain/User";
 import { ICreateUserRequest } from "../models/requests/CreateUserRequest";
 import UserRepository from "../repositories/UserRepository";
-import Logger from "../../../config/Logger";
 import { ValidationError } from "yup";
 
 export interface IUserService {
@@ -24,8 +22,6 @@ class UserService implements IUserService {
         email: request.email,
         password: request.password,
       });
-
-      Logger.info(user);
 
       if (!user) {
         return false;

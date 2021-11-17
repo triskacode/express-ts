@@ -1,4 +1,3 @@
-import Logger from "../../../config/Logger";
 import {UserModel} from "../databases/schemas/UserSchema";
 import { IUserDocument, IUserEntity } from "../domain/User";
 
