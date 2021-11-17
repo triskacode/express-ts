@@ -1,0 +1,16 @@
+{
+    "Server": {
+        "host": "localhost",
+        "port": 8000
+    },
+    "Database": {
+        "mongo": {
+            "uri": "mongodb+srv://sgifwd2:1tX7MVWHckeZIF44@cluster0.erbq6.mongodb.net/sample?retryWrites=true&w=majority"
+        }
+    },
+    "Hash": {
+        "password": {
+            "salt": 10
+        }
+    }
+}
