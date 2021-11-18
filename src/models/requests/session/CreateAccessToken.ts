@@ -1,4 +1,5 @@
-import { ISessionEntity } from "../../../domain/Session";
+import { IUserEntity } from "../../../domain/User";
 
-export interface ICreateAccessTokenRequest
-  extends Pick<ISessionEntity, "user" | "valid" | "userAgent"> {}
+export interface ICreateAccessTokenRequest {
+  user: IUserEntity["_id"];
+}

@@ -3,6 +3,11 @@ import jwt, { SignOptions } from "jsonwebtoken";
 import { Logger } from "../config/Logger";
 import { IAccessTokenObject } from "../domain/Session";
 
+export interface IDecodedToken {
+  valid: boolean;
+  object: IAccessTokenObject | null;
+}
+
 export class Jwt {
   private static privateKey: string = config.get("Session.privateKey");
   private static expiredToken: string = config.get("Session.expiredToken");
@@ -15,7 +20,7 @@ export class Jwt {
     );
   }
 
-  static verify(token: string): { valid: boolean; object: IAccessTokenObject | null } {
+  static decode(token: string): IDecodedToken {
     try {
       const decoded = jwt.verify(token, this.privateKey);
 

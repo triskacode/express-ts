@@ -12,6 +12,12 @@ export class UserRepository {
     return await UserModel.exists(user);
   }
 
+  static async findOne(
+    filter: Partial<Pick<IUserEntity, "_id" | "email">>
+  ): Promise<IUserDocument | null> {
+    return await UserModel.findOne(filter).exec();
+  }
+
   static async findOneByEmail(
     email: IUserEntity["email"]
   ): Promise<IUserDocument | null> {

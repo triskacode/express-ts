@@ -1,7 +1,8 @@
-import { Express, Request, Response, NextFunction } from "express";
+import { Express, Request, Response, NextFunction, response } from "express";
 import { Logger } from "../config/Logger";
 import { SessionController } from "../controllers/SessionController";
 import { UserController } from "../controllers/UserController";
+import { MustAuthenticate } from "../middleware/MustAuthenticate";
 import { ValidationRequests } from "../middleware/ValidateRequest";
 import { ErrorResponse } from "../responses/ErrorResponse";
 import { CreateSessionValidator } from "../validations/CreateSessionValidator";
@@ -25,6 +26,14 @@ export const Routes = (app: Express) => {
     ValidationRequests.validate(CreateSessionValidator.rules()),
     SessionController.createSession
   );
+
+  // route test must login
+  app.get("/test", MustAuthenticate.handler, (req: Request, res: Response) => {
+    // @ts-ignore
+    Logger.info(req.user);
+
+    return res.sendStatus(200);
+  });
 
   // error fallback
   app.use(function (err: any, req: Request, res: Response, next: NextFunction) {

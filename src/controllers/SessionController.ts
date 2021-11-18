@@ -17,8 +17,6 @@ export class SessionController {
 
       const accessToken = await SessionService.createAccessToken({
         user: user._id,
-        userAgent: req.get("user-agent") as string,
-        valid: true,
       });
 
       return SuccessResponse.handle(res, 200, {

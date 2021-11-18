@@ -3,6 +3,8 @@ import { UserRepository } from "../repositories/UserRepository";
 import { ValidationError } from "yup";
 import { IValidatePasswordRequest } from "../models/requests/user/ValidatePassword";
 import { IValidatePasswordPresenter } from "../models/presenters/user/ValidatePassword";
+import { IFindOneUserRequest } from "../models/requests/user/FindOneUser";
+import { IFindOneUserPresenter } from "../models/presenters/user/FindOneUser";
 
 export class UserService {
   static async createUser(request: ICreateUserRequest): Promise<boolean> {
@@ -48,6 +50,16 @@ export class UserService {
       }
 
       return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async findOneUser(
+    request: IFindOneUserRequest
+  ): Promise<IFindOneUserPresenter | null> {
+    try {
+      return await UserRepository.findOne(request);
     } catch (error) {
       throw error;
     }

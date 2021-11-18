@@ -32,7 +32,7 @@ UserSchema.pre<IUserDocument>(
   async function (this, next: (err?: mongoose.CallbackError) => void) {
     try {
       if (!this.isModified("password")) {
-        next();
+        return next();
       }
 
       const hash = await bcrypt.hash(
@@ -41,11 +41,10 @@ UserSchema.pre<IUserDocument>(
       );
 
       this.password = hash;
-      Logger.info(this);
 
-      next();
+      return next();
     } catch (error) {
-      next(error as NativeError);
+      return next(error as NativeError);
     }
   }
 );
