@@ -12,5 +12,9 @@
         "password": {
             "salt": 10
         }
+    },
+    "Session":{
+        "privateKey": "3243CE16F2AAC8752E6AF9BDA781B",
+        "expiredToken": "1h"
     }
 }

@@ -11,7 +11,9 @@ export interface IUserEntity {
 
 export interface IUserDocument
   extends IUserEntity,
-    Omit<Document, keyof IUserEntity> {}
+    Omit<Document, keyof IUserEntity> {
+  comparePassword: (password: string) => Promise<boolean>;
+}
 
 export interface IUserPresenter
   extends Required<Omit<IUserEntity, "password">> {}

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { ValidationError } from "yup";
-import Logger from "../config/Logger";
-import { CreateUserResponse } from "../models/responses/CreateUserResponse";
-import { ErrorResponse } from "../models/responses/ErrorResponse";
-import UserService from "../services/UserService";
-import { ValidationErrorResponse } from "../models/responses/ValidationErrorResponse";
+import { Logger } from "../config/Logger";
+import { ErrorResponse } from "../responses/ErrorResponse";
+import { UserService } from "../services/UserService";
+import { ValidationErrorResponse } from "../responses/ValidationErrorResponse";
+import { SuccessResponse } from "../responses/SuccessResponse";
 
-class UserController {
-  async create(req: Request, res: Response) {
+export class UserController {
+  static async createUser(req: Request, res: Response) {
     try {
       const isSuccessfullStoredUser = await UserService.createUser({
         name: req.body.name,
@@ -16,7 +16,7 @@ class UserController {
       });
 
       if (isSuccessfullStoredUser) {
-        return CreateUserResponse.handle(res);
+        return SuccessResponse.handle(res, 201);
       } else {
         return ErrorResponse.handle(res, 500);
       }
@@ -31,5 +31,3 @@ class UserController {
     }
   }
 }
-
-export default new UserController();

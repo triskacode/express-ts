@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { NativeError } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "config";
 import { IUserDocument } from "../../domain/User";
+import { Logger } from "../../config/Logger";
 
 const UserSchema = new mongoose.Schema<IUserDocument>(
   {
@@ -29,22 +30,31 @@ const UserSchema = new mongoose.Schema<IUserDocument>(
 UserSchema.pre<IUserDocument>(
   "save",
   async function (this, next: (err?: mongoose.CallbackError) => void) {
-    if (!this.isModified("password")) {
-      return next();
+    try {
+      if (!this.isModified("password")) {
+        next();
+      }
+
+      const hash = await bcrypt.hash(
+        this.password,
+        config.get("Hash.password.salt")
+      );
+
+      this.password = hash;
+      Logger.info(this);
+
+      next();
+    } catch (error) {
+      next(error as NativeError);
     }
-
-    bcrypt
-      .hash(this.password, config.get("Hash.password.salt"))
-      .then((hash: string) => {
-        this.password = hash;
-
-        return next();
-      })
-      .catch((err) => {
-        return next(err);
-      });
   }
 );
+
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+};
 
 const UserModel = mongoose.model<IUserDocument>("User", UserSchema);
 

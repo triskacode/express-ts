@@ -1,24 +1,31 @@
-import { ISessionDocument } from "../domain/Session";
-import { ICreateSession } from "../models/requests/CreateSession";
-import SessionRepository from "../repositories/SessionRepository";
+import { Jwt } from "../helper/jwt";
+import { ICreateAccessTokenPresenter } from "../models/presenters/session/CreateAccessToken";
+import { ICreateAccessTokenRequest } from "../models/requests/session/CreateAccessToken";
+import { SessionRepository } from "../repositories/SessionRepository";
 
-class SessionService {
+export class SessionService {
   static async createAccessToken(
-    request: ICreateSession
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    let session = SessionRepository.findOneByUserId(request.user);
+    request: ICreateAccessTokenRequest
+  ): Promise<ICreateAccessTokenPresenter> {
+    try {
+      let session = await SessionRepository.findOneByUserId(request.user);
 
-    if (!session) {
-      session = SessionRepository.create({
-        user: request.user,
-        valid: request.valid,
-        userAgent: request.userAgent,
+      if (!session) {
+        session = await SessionRepository.create({
+          user: request.user,
+          valid: request.valid,
+          userAgent: request.userAgent,
+        });
+      }
+
+      // create token by default expires reference on config Session.expiresToken
+      const accessToken = Jwt.sign({
+        userId: session.user,
       });
-    }
 
-    // create token
-    return;
+      return { token: accessToken };
+    } catch (error) {
+      throw error;
+    }
   }
 }
-
-export default SessionService;

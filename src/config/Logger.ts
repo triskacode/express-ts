@@ -1,7 +1,7 @@
 import pino from "pino";
 import dayjs from "dayjs";
 
-const Logger = pino({
+export const Logger = pino({
   base: {
     pid: false,
   },
@@ -13,5 +13,3 @@ const Logger = pino({
   },
   timestamp: () => `,"time":"${dayjs().format()}"`,
 });
-
-export default Logger;

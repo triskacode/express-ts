@@ -1,8 +1,8 @@
 import config from "config";
 import mongoose, { MongooseOptions } from "mongoose";
-import Logger from "./Logger";
+import { Logger } from "./Logger";
 
-const Database = () => {
+export const Database = () => {
   const dbUri = config.get("Database.mongo.uri") as string;
   const dbOptions = {
     useNewUrlParser: true,
@@ -19,5 +19,3 @@ const Database = () => {
       process.exit(1);
     });
 };
-
-export default Database;

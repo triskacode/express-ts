@@ -1,18 +1,29 @@
 import { Express, Request, Response, NextFunction } from "express";
-import Logger from "../config/Logger";
-import UserController from "../controllers/UserController";
+import { Logger } from "../config/Logger";
+import { SessionController } from "../controllers/SessionController";
+import { UserController } from "../controllers/UserController";
 import { ValidationRequests } from "../middleware/ValidateRequest";
-import { ErrorResponse } from "../models/responses/ErrorResponse";
-import CreateUserValidator from "../validations/CreateUserValidator";
+import { ErrorResponse } from "../responses/ErrorResponse";
+import { CreateSessionValidator } from "../validations/CreateSessionValidator";
+import { CreateUserValidator } from "../validations/CreateUserValidator";
 
-const Routes = (app: Express) => {
-  app.get("/health-check", (req: Request, res: Response) => res.sendStatus(200));
+export const Routes = (app: Express) => {
+  app.get("/health-check", (req: Request, res: Response) =>
+    res.sendStatus(200)
+  );
 
   // create user
   app.post(
     "/users",
     ValidationRequests.validate(CreateUserValidator.rules()),
-    UserController.create
+    UserController.createUser
+  );
+
+  // create session / login
+  app.post(
+    "/sessions",
+    ValidationRequests.validate(CreateSessionValidator.rules()),
+    SessionController.createSession
   );
 
   // error fallback
@@ -22,5 +33,3 @@ const Routes = (app: Express) => {
     return ErrorResponse.handle(res, 500);
   });
 };
-
-export default Routes;

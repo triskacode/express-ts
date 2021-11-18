@@ -1,7 +1,7 @@
 import { UserModel } from "../databases/schemas/UserSchema";
 import { IUserDocument, IUserEntity } from "../domain/User";
 
-class UserRepository {
+export class UserRepository {
   static async create(user: IUserEntity): Promise<IUserDocument> {
     return await UserModel.create(user);
   }
@@ -11,6 +11,10 @@ class UserRepository {
   ): Promise<boolean> {
     return await UserModel.exists(user);
   }
-}
 
-export default UserRepository;
+  static async findOneByEmail(
+    email: IUserEntity["email"]
+  ): Promise<IUserDocument | null> {
+    return await UserModel.findOne({ email }).exec();
+  }
+}

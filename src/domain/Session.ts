@@ -1,6 +1,10 @@
 import mongoose, { Document } from "mongoose";
 import { IUserDocument } from "./User";
 
+export interface IAccessTokenObject {
+  userId: IUserDocument["_id"];
+}
+
 export interface ISessionEntity {
   _id?: mongoose.Schema.Types.ObjectId;
   user: IUserDocument["_id"];

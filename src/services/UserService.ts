@@ -1,9 +1,11 @@
-import { ICreateUser } from "../models/requests/CreateUser";
-import UserRepository from "../repositories/UserRepository";
+import { ICreateUserRequest } from "../models/requests/user/CreateUser";
+import { UserRepository } from "../repositories/UserRepository";
 import { ValidationError } from "yup";
+import { IValidatePasswordRequest } from "../models/requests/user/ValidatePassword";
+import { IValidatePasswordPresenter } from "../models/presenters/user/ValidatePassword";
 
-class UserService {
-  static async createUser(request: ICreateUser): Promise<boolean> {
+export class UserService {
+  static async createUser(request: ICreateUserRequest): Promise<boolean> {
     try {
       const isAlreadyExist = await UserRepository.exists({
         email: request.email,
@@ -28,6 +30,26 @@ class UserService {
       throw error;
     }
   }
-}
 
-export default UserService;
+  static async validatePassword(
+    request: IValidatePasswordRequest
+  ): Promise<IValidatePasswordPresenter> {
+    try {
+      const user = await UserRepository.findOneByEmail(request.email);
+
+      if (!user) {
+        throw new ValidationError("Invalid email or password");
+      }
+
+      const isMatchPassword = await user.comparePassword(request.password);
+
+      if (!isMatchPassword) {
+        throw new ValidationError("Invalid email or password");
+      }
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
